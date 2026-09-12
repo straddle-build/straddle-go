@@ -129,7 +129,9 @@ func (r *FundingEventService) Get(ctx context.Context, id string, params Funding
 //
 // Example:
 //
-//	fundingEvent, err := client.FundingEvents.Simulate(context.Background(), sdk.FundingEventSimulateParams{})
+//	fundingEvent, err := client.FundingEvents.Simulate(context.Background(), sdk.FundingEventSimulateParams{
+//		FundingEventJobType: sdk.F[sdk.FundingEventSimulateParamsFundingEventJobType](sdk.FundingEventSimulateParamsFundingEventJobType("charges")),
+//	})
 //	if err != nil {
 //		panic(err)
 //	}

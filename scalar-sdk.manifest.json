@@ -1,7 +1,7 @@
 {
   "name": "StraddleApi",
   "slug": "straddleApi",
-  "generatorVersion": "0.32.0",
+  "generatorVersion": "0.32.9",
   "servers": [
     "https://{environment}.straddle.com"
   ],
@@ -5296,28 +5296,6 @@
       "source": "create_customer_request",
       "publicAliases": [],
       "deprecated": false,
-      "extensions": {
-        "source": [
-          "examples"
-        ],
-        "examples": {
-          "name": "Ron Swanson",
-          "type": "individual",
-          "email": "ron.swanson@pawnee.com",
-          "address": {
-            "address1": "123 Main St",
-            "city": "Anytown",
-            "state": "CA",
-            "zip": "94105"
-          },
-          "phone": "+12128675309",
-          "external_id": "customer_123",
-          "device": {
-            "ip_address": "192.168.1.1"
-          },
-          "metadata": {}
-        }
-      },
       "type": {
         "kind": "object",
         "properties": [
@@ -8392,7 +8370,7 @@
               "source": [
                 "examples"
               ],
-              "examples": "OK"
+              "examples": "ok"
             },
             "type": {
               "kind": "ref",
@@ -10608,39 +10586,23 @@
           {
             "name": "created_at",
             "publicName": "created_at",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "type": {
-              "kind": "union",
-              "variants": [
-                {
-                  "kind": "primitive",
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "kind": "null"
-                }
-              ]
+              "kind": "primitive",
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
             "name": "updated_at",
             "publicName": "updated_at",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "type": {
-              "kind": "union",
-              "variants": [
-                {
-                  "kind": "primitive",
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "kind": "null"
-                }
-              ]
+              "kind": "primitive",
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
@@ -13504,39 +13466,23 @@
           {
             "name": "created_at",
             "publicName": "created_at",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "type": {
-              "kind": "union",
-              "variants": [
-                {
-                  "kind": "primitive",
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "kind": "null"
-                }
-              ]
+              "kind": "primitive",
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
             "name": "updated_at",
             "publicName": "updated_at",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "type": {
-              "kind": "union",
-              "variants": [
-                {
-                  "kind": "primitive",
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "kind": "null"
-                }
-              ]
+              "kind": "primitive",
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
@@ -25318,16 +25264,16 @@
       },
       "response": {
         "status": "201",
-        "contentType": "text/plain",
-        "encoding": "text",
+        "contentType": "application/json",
+        "encoding": "json",
         "contents": [
-          {
-            "contentType": "text/plain",
-            "encoding": "text"
-          },
           {
             "contentType": "application/json",
             "encoding": "json"
+          },
+          {
+            "contentType": "text/plain",
+            "encoding": "text"
           },
           {
             "contentType": "text/json",
@@ -25352,16 +25298,16 @@
       "errorResponses": [
         {
           "status": "400",
-          "contentType": "text/plain",
-          "encoding": "text",
+          "contentType": "application/json",
+          "encoding": "json",
           "contents": [
-            {
-              "contentType": "text/plain",
-              "encoding": "text"
-            },
             {
               "contentType": "application/json",
               "encoding": "json"
+            },
+            {
+              "contentType": "text/plain",
+              "encoding": "text"
             },
             {
               "contentType": "text/json",
@@ -27509,16 +27455,16 @@
       },
       "response": {
         "status": "201",
-        "contentType": "text/plain",
-        "encoding": "text",
+        "contentType": "application/json",
+        "encoding": "json",
         "contents": [
-          {
-            "contentType": "text/plain",
-            "encoding": "text"
-          },
           {
             "contentType": "application/json",
             "encoding": "json"
+          },
+          {
+            "contentType": "text/plain",
+            "encoding": "text"
           },
           {
             "contentType": "text/json",
@@ -27543,16 +27489,16 @@
       "errorResponses": [
         {
           "status": "400",
-          "contentType": "text/plain",
-          "encoding": "text",
+          "contentType": "application/json",
+          "encoding": "json",
           "contents": [
-            {
-              "contentType": "text/plain",
-              "encoding": "text"
-            },
             {
               "contentType": "application/json",
               "encoding": "json"
+            },
+            {
+              "contentType": "text/plain",
+              "encoding": "text"
             },
             {
               "contentType": "text/json",
@@ -31786,16 +31732,16 @@
       },
       "response": {
         "status": "201",
-        "contentType": "text/plain",
-        "encoding": "text",
+        "contentType": "application/json",
+        "encoding": "json",
         "contents": [
-          {
-            "contentType": "text/plain",
-            "encoding": "text"
-          },
           {
             "contentType": "application/json",
             "encoding": "json"
+          },
+          {
+            "contentType": "text/plain",
+            "encoding": "text"
           },
           {
             "contentType": "text/json",
@@ -31820,16 +31766,16 @@
       "errorResponses": [
         {
           "status": "400",
-          "contentType": "text/plain",
-          "encoding": "text",
+          "contentType": "application/json",
+          "encoding": "json",
           "contents": [
-            {
-              "contentType": "text/plain",
-              "encoding": "text"
-            },
             {
               "contentType": "application/json",
               "encoding": "json"
+            },
+            {
+              "contentType": "text/plain",
+              "encoding": "text"
             },
             {
               "contentType": "text/json",
@@ -36043,16 +35989,16 @@
       },
       "response": {
         "status": "201",
-        "contentType": "text/plain",
-        "encoding": "text",
+        "contentType": "application/json",
+        "encoding": "json",
         "contents": [
-          {
-            "contentType": "text/plain",
-            "encoding": "text"
-          },
           {
             "contentType": "application/json",
             "encoding": "json"
+          },
+          {
+            "contentType": "text/plain",
+            "encoding": "text"
           },
           {
             "contentType": "text/json",
@@ -36077,16 +36023,16 @@
       "errorResponses": [
         {
           "status": "400",
-          "contentType": "text/plain",
-          "encoding": "text",
+          "contentType": "application/json",
+          "encoding": "json",
           "contents": [
-            {
-              "contentType": "text/plain",
-              "encoding": "text"
-            },
             {
               "contentType": "application/json",
               "encoding": "json"
+            },
+            {
+              "contentType": "text/plain",
+              "encoding": "text"
             },
             {
               "contentType": "text/json",

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -52,8 +53,8 @@ func _smokeCase0() {
 
 func _smokeCase1() {
 	account, err := client.Accounts.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.AccountGetParams{
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -84,9 +85,9 @@ func _smokeCase3() {
 		}),
 		ExternalID:     sdk.F[string](""),
 		Metadata:       sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -97,6 +98,8 @@ func _smokeCase3() {
 
 func _smokeCase4() {
 	account, err := client.Accounts.New(context.Background(), sdk.AccountNewParams{
+		AccessLevel: sdk.F[sdk.AccountNewParamsAccessLevel](sdk.AccountNewParamsAccessLevel("standard")),
+		AccountType: sdk.F[sdk.AccountNewParamsAccountType](sdk.AccountNewParamsAccountType("business")),
 		BusinessProfile: sdk.F[sdk.AccountBusinessProfileParam](sdk.AccountBusinessProfileParam{
 			Name:    sdk.F[string](""),
 			Website: sdk.F[string]("https://example.com"),
@@ -112,6 +115,8 @@ func _smokeCase4() {
 
 func _smokeCase5() {
 	account, err := client.Accounts.New(context.Background(), sdk.AccountNewParams{
+		AccessLevel: sdk.F[sdk.AccountNewParamsAccessLevel](sdk.AccountNewParamsAccessLevel("standard")),
+		AccountType: sdk.F[sdk.AccountNewParamsAccountType](sdk.AccountNewParamsAccountType("business")),
 		BusinessProfile: sdk.F[sdk.AccountBusinessProfileParam](sdk.AccountBusinessProfileParam{
 			Name:    sdk.F[string](""),
 			Website: sdk.F[string]("https://example.com"),
@@ -119,9 +124,9 @@ func _smokeCase5() {
 		OrganizationID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 		ExternalID:     sdk.F[string](""),
 		Metadata:       sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -146,16 +151,16 @@ func _smokeCase6() {
 
 func _smokeCase7() {
 	account, err := client.Accounts.List(context.Background(), sdk.AccountListParams{
-		ExternalID:    sdk.F[string](""),
+		ExternalID:    sdk.F[string]("externalId"),
 		PageNumber:    sdk.F[int64](1),
 		PageSize:      sdk.F[int64](100),
-		SearchText:    sdk.F[string](""),
+		SearchText:    sdk.F[string]("searchText"),
 		SortBy:        sdk.F[string]("id"),
 		SortOrder:     sdk.F[sdk.AccountListParamsSortOrder](sdk.AccountListParamsSortOrder("asc")),
 		Status:        sdk.F[sdk.AccountListParamsStatus](sdk.AccountListParamsStatus("created")),
 		Type:          sdk.F[sdk.AccountListParamsType](sdk.AccountListParamsType("business")),
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -167,8 +172,9 @@ func _smokeCase7() {
 func _smokeCase8() {
 	account, err := client.Accounts.Onboard(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.AccountOnboardParams{
 		TermsOfService: sdk.F[sdk.TermsOfServiceParam](sdk.TermsOfServiceParam{
-			AcceptedDate: sdk.F[time.Time](time.Now()),
-			AgreementURL: sdk.F[string](""),
+			AcceptedDate:  sdk.F[time.Time](time.Now()),
+			AgreementURL:  sdk.F[string](""),
+			AgreementType: sdk.F[sdk.TermsOfServiceAgreementType](sdk.TermsOfServiceAgreementType("embedded")),
 		}),
 	})
 	if err != nil {
@@ -181,12 +187,13 @@ func _smokeCase8() {
 func _smokeCase9() {
 	account, err := client.Accounts.Onboard(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.AccountOnboardParams{
 		TermsOfService: sdk.F[sdk.TermsOfServiceParam](sdk.TermsOfServiceParam{
-			AcceptedDate: sdk.F[time.Time](time.Now()),
-			AgreementURL: sdk.F[string](""),
+			AcceptedDate:  sdk.F[time.Time](time.Now()),
+			AgreementURL:  sdk.F[string](""),
+			AgreementType: sdk.F[sdk.TermsOfServiceAgreementType](sdk.TermsOfServiceAgreementType("embedded")),
 		}),
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -207,9 +214,9 @@ func _smokeCase10() {
 func _smokeCase11() {
 	account, err := client.Accounts.SimulateOnboarding(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.AccountSimulateOnboardingParams{
 		FinalStatus:    sdk.F[sdk.AccountSimulateOnboardingParamsFinalStatus](sdk.AccountSimulateOnboardingParamsFinalStatus("onboarding")),
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -255,9 +262,9 @@ func _smokeCase13() {
 		SignedAgreement: sdk.F[sdk.CapabilityRequestNewParamsSignedAgreement](sdk.CapabilityRequestNewParamsSignedAgreement{
 			Enable: sdk.F[bool](false),
 		}),
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -289,8 +296,8 @@ func _smokeCase15() {
 		SortOrder:     sdk.F[sdk.CapabilityRequestListParamsSortOrder](sdk.CapabilityRequestListParamsSortOrder("asc")),
 		Status:        sdk.F[sdk.CapabilityRequestListParamsStatus](sdk.CapabilityRequestListParamsStatus("active")),
 		Type:          sdk.F[sdk.CapabilityRequestListParamsType](sdk.CapabilityRequestListParamsType("charges")),
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -326,9 +333,9 @@ func _smokeCase17() {
 		Metadata:       sdk.F[map[string]string](map[string]string{}),
 		PlatformID:     sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 		Purposes:       sdk.F[[]sdk.LinkedBankAccountNewParamsPurpose]([]sdk.LinkedBankAccountNewParamsPurpose{"charges"}),
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -361,8 +368,8 @@ func _smokeCase19() {
 		SortBy:        sdk.F[string]("id"),
 		SortOrder:     sdk.F[sdk.LinkedBankAccountListParamsSortOrder](sdk.LinkedBankAccountListParamsSortOrder("asc")),
 		Status:        sdk.F[sdk.LinkedBankAccountListParamsStatus](sdk.LinkedBankAccountListParamsStatus("created")),
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -394,9 +401,9 @@ func _smokeCase21() {
 			AccountNumber: sdk.F[string](""),
 		}),
 		Metadata:       sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -416,8 +423,8 @@ func _smokeCase22() {
 
 func _smokeCase23() {
 	linkedBankAccount, err := client.LinkedBankAccounts.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.LinkedBankAccountGetParams{
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -437,8 +444,8 @@ func _smokeCase24() {
 
 func _smokeCase25() {
 	linkedBankAccount, err := client.LinkedBankAccounts.ListUnmasked(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.LinkedBankAccountListUnmaskedParams{
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -458,9 +465,9 @@ func _smokeCase26() {
 
 func _smokeCase27() {
 	linkedBankAccount, err := client.LinkedBankAccounts.Cancel(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.LinkedBankAccountCancelParams{
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -485,9 +492,9 @@ func _smokeCase29() {
 		Name:           sdk.F[string](""),
 		ExternalID:     sdk.F[string](""),
 		Metadata:       sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -512,14 +519,14 @@ func _smokeCase30() {
 
 func _smokeCase31() {
 	organization, err := client.Organizations.List(context.Background(), sdk.OrganizationListParams{
-		ExternalID:    sdk.F[string](""),
-		Name:          sdk.F[string](""),
+		ExternalID:    sdk.F[string]("externalId"),
+		Name:          sdk.F[string]("name"),
 		PageNumber:    sdk.F[int64](1),
 		PageSize:      sdk.F[int64](100),
 		SortBy:        sdk.F[string]("id"),
 		SortOrder:     sdk.F[sdk.OrganizationListParamsSortOrder](sdk.OrganizationListParamsSortOrder("asc")),
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -539,8 +546,8 @@ func _smokeCase32() {
 
 func _smokeCase33() {
 	organization, err := client.Organizations.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.OrganizationGetParams{
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -587,9 +594,9 @@ func _smokeCase35() {
 		SsnLast4:       sdk.F[string]("1234"),
 		ExternalID:     sdk.F[string](""),
 		Metadata:       sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -622,8 +629,8 @@ func _smokeCase37() {
 		PlatformID:     sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 		SortBy:         sdk.F[string]("id"),
 		SortOrder:      sdk.F[sdk.RepresentativeListParamsSortOrder](sdk.RepresentativeListParamsSortOrder("asc")),
-		CorrelationID:  sdk.F[string](""),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -668,9 +675,9 @@ func _smokeCase39() {
 		SsnLast4:       sdk.F[string]("1234"),
 		ExternalID:     sdk.F[string](""),
 		Metadata:       sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:  sdk.F[string](""),
-		IdempotencyKey: sdk.F[string]("xxxxxxxxxx"),
-		RequestID:      sdk.F[string](""),
+		CorrelationID:  sdk.F[string]("correlationId"),
+		IdempotencyKey: sdk.F[string]("idempotencyKey"),
+		RequestID:      sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -690,8 +697,8 @@ func _smokeCase40() {
 
 func _smokeCase41() {
 	representative, err := client.Representatives.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.RepresentativeGetParams{
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -711,8 +718,8 @@ func _smokeCase42() {
 
 func _smokeCase43() {
 	representative, err := client.Representatives.ListUnmasked(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.RepresentativeListUnmaskedParams{
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -724,6 +731,7 @@ func _smokeCase43() {
 func _smokeCase44() {
 	bridge, err := client.Bridge.NewBankAccountPaykey(context.Background(), sdk.BridgeNewBankAccountPaykeyParams{
 		AccountNumber: sdk.F[string](""),
+		AccountType:   sdk.F[sdk.AccountType](sdk.AccountType("checking")),
 		CustomerID:    sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 		RoutingNumber: sdk.F[string]("xxxxxxxxx"),
 	})
@@ -737,14 +745,15 @@ func _smokeCase44() {
 func _smokeCase45() {
 	bridge, err := client.Bridge.NewBankAccountPaykey(context.Background(), sdk.BridgeNewBankAccountPaykeyParams{
 		AccountNumber:     sdk.F[string](""),
+		AccountType:       sdk.F[sdk.AccountType](sdk.AccountType("checking")),
 		CustomerID:        sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 		RoutingNumber:     sdk.F[string]("xxxxxxxxx"),
 		Config:            sdk.F[sdk.PaykeyConfigurationParam](sdk.PaykeyConfigurationParam{}),
 		ExternalID:        sdk.F[string](""),
 		Metadata:          sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -773,9 +782,9 @@ func _smokeCase47() {
 		Config:            sdk.F[sdk.PaykeyConfigurationParam](sdk.PaykeyConfigurationParam{}),
 		ExternalID:        sdk.F[string](""),
 		Metadata:          sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -801,9 +810,9 @@ func _smokeCase49() {
 		CustomerID:        sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 		Config:            sdk.F[sdk.PaykeyConfigurationParam](sdk.PaykeyConfigurationParam{}),
 		ExternalID:        sdk.F[string](""),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -832,9 +841,9 @@ func _smokeCase51() {
 		Config:            sdk.F[sdk.PaykeyConfigurationParam](sdk.PaykeyConfigurationParam{}),
 		ExternalID:        sdk.F[string](""),
 		Metadata:          sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -855,8 +864,8 @@ func _smokeCase52() {
 
 func _smokeCase53() {
 	customer, err := client.Customers.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerGetParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -871,9 +880,10 @@ func _smokeCase54() {
 		Device: sdk.F[sdk.CustomerDeviceParam](sdk.CustomerDeviceParam{
 			IPAddress: sdk.F[string]("192.168.1.1"),
 		}),
-		Email: sdk.F[string]("user@example.com"),
-		Name:  sdk.F[string](""),
-		Phone: sdk.F[string](""),
+		Email:  sdk.F[string]("user@example.com"),
+		Name:   sdk.F[string](""),
+		Phone:  sdk.F[string](""),
+		Status: sdk.F[sdk.CustomerStatus](sdk.CustomerStatus("verified")),
 	})
 	if err != nil {
 		panic(err)
@@ -887,9 +897,10 @@ func _smokeCase55() {
 		Device: sdk.F[sdk.CustomerDeviceParam](sdk.CustomerDeviceParam{
 			IPAddress: sdk.F[string]("192.168.1.1"),
 		}),
-		Email: sdk.F[string]("user@example.com"),
-		Name:  sdk.F[string](""),
-		Phone: sdk.F[string](""),
+		Email:  sdk.F[string]("user@example.com"),
+		Name:   sdk.F[string](""),
+		Phone:  sdk.F[string](""),
+		Status: sdk.F[sdk.CustomerStatus](sdk.CustomerStatus("verified")),
 		Address: sdk.F[sdk.CustomerUpdateParamsAddress](sdk.CustomerUpdateParamsAddress{
 			Address1: sdk.F[string]("123 Main St"),
 			City:     sdk.F[string]("Anytown"),
@@ -898,9 +909,9 @@ func _smokeCase55() {
 		}),
 		ExternalID:        sdk.F[string](""),
 		Metadata:          sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -921,9 +932,9 @@ func _smokeCase56() {
 
 func _smokeCase57() {
 	customer, err := client.Customers.Delete(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerDeleteParams{
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -950,18 +961,18 @@ func _smokeCase59() {
 	customer, err := client.Customers.List(context.Background(), sdk.CustomerListParams{
 		CreatedFrom:       sdk.F[time.Time](time.Now()),
 		CreatedTo:         sdk.F[time.Time](time.Now()),
-		Email:             sdk.F[string](""),
-		ExternalID:        sdk.F[string](""),
-		Name:              sdk.F[string](""),
+		Email:             sdk.F[string]("email"),
+		ExternalID:        sdk.F[string]("externalId"),
+		Name:              sdk.F[string]("name"),
 		PageNumber:        sdk.F[int64](1),
 		PageSize:          sdk.F[int64](100),
-		SearchText:        sdk.F[string](""),
+		SearchText:        sdk.F[string]("searchText"),
 		SortBy:            sdk.F[sdk.CustomerListParamsSortBy](sdk.CustomerListParamsSortBy("name")),
 		SortOrder:         sdk.F[sdk.SortOrder](sdk.SortOrder("asc")),
 		Status:            sdk.F[[]sdk.CustomerStatus]([]sdk.CustomerStatus{"pending"}),
 		Types:             sdk.F[[]sdk.CustomerType]([]sdk.CustomerType{"individual"}),
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -979,14 +990,7 @@ func _smokeCase60() {
 		Email: sdk.F[string]("ron.swanson@pawnee.com"),
 		Name:  sdk.F[string]("Ron Swanson"),
 		Phone: sdk.F[string]("+12128675309"),
-		Address: sdk.F[sdk.CustomerUpdateParamsAddress](sdk.CustomerUpdateParamsAddress{
-			Address1: sdk.F[string]("123 Main St"),
-			City:     sdk.F[string]("Anytown"),
-			State:    sdk.F[string]("CA"),
-			Zip:      sdk.F[string]("94105"),
-		}),
-		ExternalID: sdk.F[string]("customer_123"),
-		Metadata:   sdk.F[map[string]string](map[string]string{}),
+		Type:  sdk.F[sdk.CustomerType](sdk.CustomerType("individual")),
 	})
 	if err != nil {
 		panic(err)
@@ -1003,18 +1007,19 @@ func _smokeCase61() {
 		Email: sdk.F[string]("ron.swanson@pawnee.com"),
 		Name:  sdk.F[string]("Ron Swanson"),
 		Phone: sdk.F[string]("+12128675309"),
+		Type:  sdk.F[sdk.CustomerType](sdk.CustomerType("individual")),
 		Address: sdk.F[sdk.CustomerUpdateParamsAddress](sdk.CustomerUpdateParamsAddress{
 			Address1: sdk.F[string]("123 Main St"),
 			City:     sdk.F[string]("Anytown"),
 			State:    sdk.F[string]("CA"),
-			Zip:      sdk.F[string]("94105"),
+			Zip:      sdk.F[string]("12345"),
 		}),
 		Config:            sdk.F[sdk.CustomerConfigurationParam](sdk.CustomerConfigurationParam{}),
 		ExternalID:        sdk.F[string]("customer_123"),
 		Metadata:          sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1035,8 +1040,8 @@ func _smokeCase62() {
 
 func _smokeCase63() {
 	customer, err := client.Customers.ListUnmasked(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerListUnmaskedParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1057,9 +1062,9 @@ func _smokeCase64() {
 
 func _smokeCase65() {
 	customer, err := client.Customers.RefreshReview(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerRefreshReviewParams{
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1080,8 +1085,8 @@ func _smokeCase66() {
 
 func _smokeCase67() {
 	review, err := client.Customers.Review.List(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerReviewListParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1092,7 +1097,9 @@ func _smokeCase67() {
 }
 
 func _smokeCase68() {
-	review, err := client.Customers.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerReviewSetVerificationDecisionParams{})
+	review, err := client.Customers.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerReviewSetVerificationDecisionParams{
+		Status: sdk.F[sdk.CustomerReviewSetVerificationDecisionParamsStatus](sdk.CustomerReviewSetVerificationDecisionParamsStatus("verified")),
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -1102,9 +1109,10 @@ func _smokeCase68() {
 
 func _smokeCase69() {
 	review, err := client.Customers.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerReviewSetVerificationDecisionParams{
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		Status:            sdk.F[sdk.CustomerReviewSetVerificationDecisionParamsStatus](sdk.CustomerReviewSetVerificationDecisionParamsStatus("verified")),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1125,8 +1133,8 @@ func _smokeCase70() {
 
 func _smokeCase71() {
 	paykey, err := client.Paykeys.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyGetParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1147,8 +1155,8 @@ func _smokeCase72() {
 
 func _smokeCase73() {
 	paykey, err := client.Paykeys.ListUnmasked(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyListUnmaskedParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1178,14 +1186,14 @@ func _smokeCase75() {
 		CustomerID:        sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 		PageNumber:        sdk.F[int64](1),
 		PageSize:          sdk.F[int64](100),
-		SearchText:        sdk.F[string](""),
+		SearchText:        sdk.F[string]("searchText"),
 		SortBy:            sdk.F[sdk.PaykeyListParamsSortBy](sdk.PaykeyListParamsSortBy("institution_name")),
 		SortOrder:         sdk.F[sdk.SortOrder](sdk.SortOrder("asc")),
 		Source:            sdk.F[[]sdk.PaykeySource]([]sdk.PaykeySource{"bank_account"}),
 		Status:            sdk.F[[]sdk.PaykeyStatus]([]sdk.PaykeyStatus{"pending"}),
-		UnblockEligible:   sdk.F[bool](false),
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		UnblockEligible:   sdk.F[bool](true),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1206,8 +1214,8 @@ func _smokeCase76() {
 
 func _smokeCase77() {
 	paykey, err := client.Paykeys.Reveal(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyRevealParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1229,9 +1237,9 @@ func _smokeCase78() {
 func _smokeCase79() {
 	paykey, err := client.Paykeys.Cancel(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyCancelParams{
 		Reason:            sdk.F[string](""),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1252,9 +1260,9 @@ func _smokeCase80() {
 
 func _smokeCase81() {
 	paykey, err := client.Paykeys.RefreshReview(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyRefreshReviewParams{
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1275,9 +1283,9 @@ func _smokeCase82() {
 
 func _smokeCase83() {
 	paykey, err := client.Paykeys.RefreshBalance(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyRefreshBalanceParams{
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1299,9 +1307,9 @@ func _smokeCase84() {
 func _smokeCase85() {
 	paykey, err := client.Paykeys.Unblock(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyUnblockParams{
 		Message:           sdk.F[string](""),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1312,7 +1320,9 @@ func _smokeCase85() {
 }
 
 func _smokeCase86() {
-	review, err := client.Paykeys.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyReviewSetVerificationDecisionParams{})
+	review, err := client.Paykeys.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyReviewSetVerificationDecisionParams{
+		Status: sdk.F[sdk.PaykeyReviewSetVerificationDecisionParamsStatus](sdk.PaykeyReviewSetVerificationDecisionParamsStatus("active")),
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -1322,9 +1332,10 @@ func _smokeCase86() {
 
 func _smokeCase87() {
 	review, err := client.Paykeys.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyReviewSetVerificationDecisionParams{
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		Status:            sdk.F[sdk.PaykeyReviewSetVerificationDecisionParamsStatus](sdk.PaykeyReviewSetVerificationDecisionParamsStatus("active")),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1345,8 +1356,8 @@ func _smokeCase88() {
 
 func _smokeCase89() {
 	review, err := client.Paykeys.Review.List(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyReviewListParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1367,8 +1378,8 @@ func _smokeCase90() {
 
 func _smokeCase91() {
 	charge, err := client.Charges.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.ChargeGetParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1397,9 +1408,9 @@ func _smokeCase93() {
 		Description:       sdk.F[string]("Monthly subscription fee"),
 		PaymentDate:       sdk.F[time.Time](time.Now()),
 		Metadata:          sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1411,9 +1422,12 @@ func _smokeCase93() {
 
 func _smokeCase94() {
 	charge, err := client.Charges.New(context.Background(), sdk.ChargeNewParams{
-		Amount:      sdk.F[int64](10000),
-		Config:      sdk.F[sdk.ChargeConfigurationParam](sdk.ChargeConfigurationParam{}),
-		Currency:    sdk.F[string](""),
+		Amount: sdk.F[int64](10000),
+		Config: sdk.F[sdk.ChargeConfigurationParam](sdk.ChargeConfigurationParam{
+			BalanceCheck: sdk.F[sdk.BalanceCheckMode](sdk.BalanceCheckMode("enabled")),
+		}),
+		ConsentType: sdk.F[sdk.ConsentType](sdk.ConsentType("internet")),
+		Currency:    sdk.F[string]("USD"),
 		Description: sdk.F[string]("Monthly subscription fee"),
 		Device: sdk.F[sdk.PaymentDeviceParam](sdk.PaymentDeviceParam{
 			IPAddress: sdk.F[string]("192.168.1.1"),
@@ -1431,9 +1445,12 @@ func _smokeCase94() {
 
 func _smokeCase95() {
 	charge, err := client.Charges.New(context.Background(), sdk.ChargeNewParams{
-		Amount:      sdk.F[int64](10000),
-		Config:      sdk.F[sdk.ChargeConfigurationParam](sdk.ChargeConfigurationParam{}),
-		Currency:    sdk.F[string](""),
+		Amount: sdk.F[int64](10000),
+		Config: sdk.F[sdk.ChargeConfigurationParam](sdk.ChargeConfigurationParam{
+			BalanceCheck: sdk.F[sdk.BalanceCheckMode](sdk.BalanceCheckMode("enabled")),
+		}),
+		ConsentType: sdk.F[sdk.ConsentType](sdk.ConsentType("internet")),
+		Currency:    sdk.F[string]("USD"),
 		Description: sdk.F[string]("Monthly subscription fee"),
 		Device: sdk.F[sdk.PaymentDeviceParam](sdk.PaymentDeviceParam{
 			IPAddress: sdk.F[string]("192.168.1.1"),
@@ -1442,9 +1459,9 @@ func _smokeCase95() {
 		Paykey:            sdk.F[string](""),
 		PaymentDate:       sdk.F[time.Time](time.Now()),
 		Metadata:          sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1466,9 +1483,9 @@ func _smokeCase96() {
 func _smokeCase97() {
 	charge, err := client.Charges.Hold(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.ChargeHoldParams{
 		Reason:            sdk.F[string](""),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1490,9 +1507,9 @@ func _smokeCase98() {
 func _smokeCase99() {
 	charge, err := client.Charges.Release(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.ChargeReleaseParams{
 		Reason:            sdk.F[string](""),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1514,9 +1531,9 @@ func _smokeCase100() {
 func _smokeCase101() {
 	charge, err := client.Charges.Cancel(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.ChargeCancelParams{
 		Reason:            sdk.F[string](""),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1537,8 +1554,8 @@ func _smokeCase102() {
 
 func _smokeCase103() {
 	charge, err := client.Charges.ListUnmasked(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.ChargeListUnmaskedParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1562,9 +1579,9 @@ func _smokeCase105() {
 		Description:       sdk.F[string](""),
 		ExternalID:        sdk.F[string](""),
 		PaymentDate:       sdk.F[time.Time](time.Now()),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1590,9 +1607,9 @@ func _smokeCase107() {
 		ExternalID:        sdk.F[string](""),
 		Metadata:          sdk.F[map[string]string](map[string]string{}),
 		PaymentDate:       sdk.F[time.Time](time.Now()),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1616,9 +1633,9 @@ func _smokeCase108() {
 func _smokeCase109() {
 	charge, err := client.Charges.UploadAuthorizationProof(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.ChargeUploadAuthorizationProofParams{
 		File:              sdk.F[io.Reader](strings.NewReader("")),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1649,16 +1666,16 @@ func _smokeCase111() {
 		EventType:         sdk.F[sdk.FundingEventType](sdk.FundingEventType("charge_deposit")),
 		PageNumber:        sdk.F[int64](1),
 		PageSize:          sdk.F[int64](100),
-		SearchText:        sdk.F[string](""),
+		SearchText:        sdk.F[string]("searchText"),
 		SortBy:            sdk.F[sdk.FundingEventListParamsSortBy](sdk.FundingEventListParamsSortBy("transfer_date")),
 		SortOrder:         sdk.F[sdk.SortOrder](sdk.SortOrder("asc")),
 		Status:            sdk.F[[]sdk.PaymentStatus]([]sdk.PaymentStatus{"created"}),
 		StatusReason:      sdk.F[[]sdk.PaymentStatusReason]([]sdk.PaymentStatusReason{"insufficient_funds"}),
 		StatusSource:      sdk.F[[]sdk.PaymentStatusSource]([]sdk.PaymentStatusSource{"watchtower"}),
-		TraceID:           sdk.F[string](""),
-		TraceNumber:       sdk.F[string](""),
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		TraceID:           sdk.F[string]("traceId"),
+		TraceNumber:       sdk.F[string]("traceNumber"),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1679,8 +1696,8 @@ func _smokeCase112() {
 
 func _smokeCase113() {
 	fundingEvent, err := client.FundingEvents.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.FundingEventGetParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1691,7 +1708,9 @@ func _smokeCase113() {
 }
 
 func _smokeCase114() {
-	fundingEvent, err := client.FundingEvents.Simulate(context.Background(), sdk.FundingEventSimulateParams{})
+	fundingEvent, err := client.FundingEvents.Simulate(context.Background(), sdk.FundingEventSimulateParams{
+		FundingEventJobType: sdk.F[sdk.FundingEventSimulateParamsFundingEventJobType](sdk.FundingEventSimulateParamsFundingEventJobType("charges")),
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -1701,10 +1720,12 @@ func _smokeCase114() {
 
 func _smokeCase115() {
 	fundingEvent, err := client.FundingEvents.Simulate(context.Background(), sdk.FundingEventSimulateParams{
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
-		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
+		FundingEventJobType: sdk.F[sdk.FundingEventSimulateParamsFundingEventJobType](sdk.FundingEventSimulateParamsFundingEventJobType("charges")),
+		SandboxOutcome:      sdk.F[sdk.SimulatedPaymentOutcome](sdk.SimulatedPaymentOutcome("standard")),
+		CorrelationID:       sdk.F[string]("correlationId"),
+		IdempotencyKey:      sdk.F[string]("idempotencyKey"),
+		RequestID:           sdk.F[string]("requestId"),
+		StraddleAccountID:   sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
 		panic(err)
@@ -1727,16 +1748,16 @@ func _smokeCase116() {
 
 func _smokeCase117() {
 	fundingEvent, err := client.FundingEvents.ListPayments(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.FundingEventListPaymentsParams{
-		DefaultPageSize:   sdk.F[int64](0),
+		DefaultPageSize:   sdk.F[int64](1),
 		DefaultSort:       sdk.F[sdk.FundingEventListPaymentsParamsDefaultSort](sdk.FundingEventListPaymentsParamsDefaultSort("created_at")),
 		DefaultSortOrder:  sdk.F[sdk.SortOrder](sdk.SortOrder("asc")),
-		IncludeMetadata:   sdk.F[bool](false),
-		PageNumber:        sdk.F[int64](0),
-		PageSize:          sdk.F[int64](0),
+		IncludeMetadata:   sdk.F[bool](true),
+		PageNumber:        sdk.F[int64](1),
+		PageSize:          sdk.F[int64](1),
 		SortBy:            sdk.F[sdk.FundingEventListPaymentsParamsSortBy](sdk.FundingEventListPaymentsParamsSortBy("created_at")),
 		SortOrder:         sdk.F[sdk.SortOrder](sdk.SortOrder("asc")),
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1765,40 +1786,40 @@ func _smokeCase118() {
 func _smokeCase119() {
 	payment, err := client.Payments.List(context.Background(), sdk.PaymentListParams{
 		CustomerID:        sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
-		DefaultPageSize:   sdk.F[int64](0),
+		DefaultPageSize:   sdk.F[int64](1),
 		DefaultSort:       sdk.F[sdk.PaymentListParamsDefaultSort](sdk.PaymentListParamsDefaultSort("id")),
 		DefaultSortOrder:  sdk.F[sdk.SortOrder](sdk.SortOrder("asc")),
-		ExternalID:        sdk.F[string](""),
+		ExternalID:        sdk.F[string]("externalId"),
 		FundingID:         sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
-		HasRefund:         sdk.F[bool](false),
-		HasResubmit:       sdk.F[bool](false),
-		IncludeMetadata:   sdk.F[bool](false),
-		IsRefund:          sdk.F[bool](false),
-		IsResubmit:        sdk.F[bool](false),
-		MaxAmount:         sdk.F[int64](0),
+		HasRefund:         sdk.F[bool](true),
+		HasResubmit:       sdk.F[bool](true),
+		IncludeMetadata:   sdk.F[bool](true),
+		IsRefund:          sdk.F[bool](true),
+		IsResubmit:        sdk.F[bool](true),
+		MaxAmount:         sdk.F[int64](1),
 		MaxCreatedAt:      sdk.F[time.Time](time.Now()),
 		MaxEffectiveAt:    sdk.F[time.Time](time.Now()),
 		MaxPaymentDate:    sdk.F[time.Time](time.Now()),
 		MaxUpdatedAt:      sdk.F[time.Time](time.Now()),
-		MinAmount:         sdk.F[int64](0),
+		MinAmount:         sdk.F[int64](1),
 		MinCreatedAt:      sdk.F[time.Time](time.Now()),
 		MinEffectiveAt:    sdk.F[time.Time](time.Now()),
 		MinPaymentDate:    sdk.F[time.Time](time.Now()),
 		MinUpdatedAt:      sdk.F[time.Time](time.Now()),
 		PageNumber:        sdk.F[int64](1),
 		PageSize:          sdk.F[int64](100),
-		Paykey:            sdk.F[string](""),
+		Paykey:            sdk.F[string]("paykey"),
 		PaykeyID:          sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 		PaymentID:         sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 		PaymentStatus:     sdk.F[[]sdk.PaymentStatus]([]sdk.PaymentStatus{"created"}),
 		PaymentType:       sdk.F[[]sdk.PaymentType]([]sdk.PaymentType{"charge"}),
-		SearchText:        sdk.F[string](""),
+		SearchText:        sdk.F[string]("searchText"),
 		SortBy:            sdk.F[sdk.PaymentListParamsSortBy](sdk.PaymentListParamsSortBy("id")),
 		SortOrder:         sdk.F[sdk.SortOrder](sdk.SortOrder("asc")),
 		StatusReason:      sdk.F[[]sdk.PaymentStatusReason]([]sdk.PaymentStatusReason{"insufficient_funds"}),
 		StatusSource:      sdk.F[[]sdk.PaymentStatusSource]([]sdk.PaymentStatusSource{"watchtower"}),
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1819,8 +1840,8 @@ func _smokeCase120() {
 
 func _smokeCase121() {
 	payout, err := client.Payouts.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PayoutGetParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1849,9 +1870,9 @@ func _smokeCase123() {
 		Description:       sdk.F[string](""),
 		PaymentDate:       sdk.F[time.Time](time.Now()),
 		Metadata:          sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1864,7 +1885,7 @@ func _smokeCase123() {
 func _smokeCase124() {
 	payout, err := client.Payouts.New(context.Background(), sdk.PayoutNewParams{
 		Amount:      sdk.F[int64](10000),
-		Currency:    sdk.F[string](""),
+		Currency:    sdk.F[string]("USD"),
 		Description: sdk.F[string]("Vendor invoice payment"),
 		Device: sdk.F[sdk.PaymentDeviceParam](sdk.PaymentDeviceParam{
 			IPAddress: sdk.F[string]("192.168.1.1"),
@@ -1883,7 +1904,7 @@ func _smokeCase124() {
 func _smokeCase125() {
 	payout, err := client.Payouts.New(context.Background(), sdk.PayoutNewParams{
 		Amount:      sdk.F[int64](10000),
-		Currency:    sdk.F[string](""),
+		Currency:    sdk.F[string]("USD"),
 		Description: sdk.F[string]("Vendor invoice payment"),
 		Device: sdk.F[sdk.PaymentDeviceParam](sdk.PaymentDeviceParam{
 			IPAddress: sdk.F[string]("192.168.1.1"),
@@ -1893,9 +1914,9 @@ func _smokeCase125() {
 		PaymentDate:       sdk.F[time.Time](time.Now()),
 		Config:            sdk.F[sdk.PayoutConfigurationParam](sdk.PayoutConfigurationParam{}),
 		Metadata:          sdk.F[map[string]string](map[string]string{}),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1917,9 +1938,9 @@ func _smokeCase126() {
 func _smokeCase127() {
 	payout, err := client.Payouts.Hold(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PayoutHoldParams{
 		Reason:            sdk.F[string](""),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1941,9 +1962,9 @@ func _smokeCase128() {
 func _smokeCase129() {
 	payout, err := client.Payouts.Release(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PayoutReleaseParams{
 		Reason:            sdk.F[string](""),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1965,9 +1986,9 @@ func _smokeCase130() {
 func _smokeCase131() {
 	payout, err := client.Payouts.Cancel(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PayoutCancelParams{
 		Reason:            sdk.F[string](""),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -1988,8 +2009,8 @@ func _smokeCase132() {
 
 func _smokeCase133() {
 	payout, err := client.Payouts.ListUnmasked(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PayoutListUnmaskedParams{
-		CorrelationID:     sdk.F[string](""),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -2013,9 +2034,9 @@ func _smokeCase135() {
 		Description:       sdk.F[string](""),
 		ExternalID:        sdk.F[string](""),
 		PaymentDate:       sdk.F[time.Time](time.Now()),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -2039,9 +2060,9 @@ func _smokeCase136() {
 func _smokeCase137() {
 	payout, err := client.Payouts.UploadAuthorizationProof(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PayoutUploadAuthorizationProofParams{
 		File:              sdk.F[io.Reader](strings.NewReader("")),
-		CorrelationID:     sdk.F[string](""),
-		IdempotencyKey:    sdk.F[string]("xxxxxxxxxx"),
-		RequestID:         sdk.F[string](""),
+		CorrelationID:     sdk.F[string]("correlationId"),
+		IdempotencyKey:    sdk.F[string]("idempotencyKey"),
+		RequestID:         sdk.F[string]("requestId"),
 		StraddleAccountID: sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	})
 	if err != nil {
@@ -2062,8 +2083,8 @@ func _smokeCase138() {
 
 func _smokeCase139() {
 	accountSetting, err := client.AccountSettings.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.AccountSettingGetParams{
-		CorrelationID: sdk.F[string](""),
-		RequestID:     sdk.F[string](""),
+		CorrelationID: sdk.F[string]("correlationId"),
+		RequestID:     sdk.F[string]("requestId"),
 	})
 	if err != nil {
 		panic(err)
@@ -3216,6 +3237,20 @@ func selectedCases() []smokeCase {
 	return selected
 }
 
+// How many cases run at once. A large SDK has hundreds of operations, and one goroutine per case
+// puts more requests in flight than the client's transport pools connections for. SCALAR_SMOKE_CONCURRENCY
+// overrides the cap; anything unparseable falls back to the default.
+func smokeConcurrency(caseCount int) int {
+	limit := 32
+	if override, err := strconv.Atoi(os.Getenv("SCALAR_SMOKE_CONCURRENCY")); err == nil && override > 0 {
+		limit = override
+	}
+	if caseCount < limit {
+		return caseCount
+	}
+	return limit
+}
+
 func runCase(testCase smokeCase) (result smokeResult) {
 	startedAt := time.Now()
 	result = smokeResult{
@@ -3240,10 +3275,15 @@ func main() {
 	selected := selectedCases()
 	results := make([]smokeResult, len(selected))
 	var wg sync.WaitGroup
+	// Buffered channel as a counting semaphore: every goroutine still starts, but only
+	// smokeConcurrency of them hold a slot — and so have a request in flight — at a time.
+	semaphore := make(chan struct{}, smokeConcurrency(len(selected)))
 	for index, testCase := range selected {
 		wg.Add(1)
 		go func(index int, testCase smokeCase) {
 			defer wg.Done()
+			semaphore <- struct{}{}
+			defer func() { <-semaphore }()
 			results[index] = runCase(testCase)
 		}(index, testCase)
 	}

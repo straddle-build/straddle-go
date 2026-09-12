@@ -142,7 +142,7 @@ func (r *PayoutService) Update(ctx context.Context, id string, body PayoutUpdate
 //
 //	payout, err := client.Payouts.New(context.Background(), sdk.PayoutNewParams{
 //		Amount:      sdk.F[int64](10000),
-//		Currency:    sdk.F[string](""),
+//		Currency:    sdk.F[string]("USD"),
 //		Description: sdk.F[string]("Vendor invoice payment"),
 //		Device: sdk.F[sdk.PaymentDeviceParam](sdk.PaymentDeviceParam{
 //			IPAddress: sdk.F[string]("192.168.1.1"),
@@ -483,6 +483,10 @@ type UnmaskedPayout struct {
 	// records.
 	ExternalID string              `json:"external_id" api:"required"`
 	Config     PayoutConfiguration `json:"config" api:"required"`
+	// Timestamp when this payout was created.
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// Timestamp when this payout was last updated.
+	UpdatedAt time.Time `json:"updated_at" api:"required" format:"date-time"`
 	// The current status of the `charge` or `payout`.
 	Status        PaymentStatus        `json:"status" api:"required"`
 	StatusDetails PaymentStatusDetails `json:"status_details" api:"required"`
@@ -505,10 +509,6 @@ type UnmaskedPayout struct {
 	// Information about the customer associated with the charge or payout.
 	CustomerDetails CustomerDetails `json:"customer_details"`
 	PaykeyDetails   PaykeyDetails   `json:"paykey_details"`
-	// Timestamp when this payout was created.
-	CreatedAt time.Time `json:"created_at" api:"nullable" format:"date-time"`
-	// Timestamp when this payout was last updated.
-	UpdatedAt time.Time `json:"updated_at" api:"nullable" format:"date-time"`
 	// Timestamp when this payout was submitted to the payment network. Null until
 	// processed.
 	ProcessedAt time.Time `json:"processed_at" api:"nullable" format:"date-time"`
@@ -533,6 +533,8 @@ type unmaskedPayoutJSON struct {
 	Device          apijson.Field
 	ExternalID      apijson.Field
 	Config          apijson.Field
+	CreatedAt       apijson.Field
+	UpdatedAt       apijson.Field
 	Status          apijson.Field
 	StatusDetails   apijson.Field
 	StatusHistory   apijson.Field
@@ -545,8 +547,6 @@ type unmaskedPayoutJSON struct {
 	PaymentRail     apijson.Field
 	CustomerDetails apijson.Field
 	PaykeyDetails   apijson.Field
-	CreatedAt       apijson.Field
-	UpdatedAt       apijson.Field
 	ProcessedAt     apijson.Field
 	EffectiveAt     apijson.Field
 	Metadata        apijson.Field
