@@ -159,6 +159,8 @@ Creates a business account in the specified organization and returns the account
 
 ```go
 account, err := client.Accounts.New(context.Background(), sdk.AccountNewParams{
+	AccessLevel: sdk.F[sdk.AccountNewParamsAccessLevel](sdk.AccountNewParamsAccessLevel("standard")),
+	AccountType: sdk.F[sdk.AccountNewParamsAccountType](sdk.AccountNewParamsAccountType("business")),
 	BusinessProfile: sdk.F[sdk.AccountBusinessProfileParam](sdk.AccountBusinessProfileParam{
 		Name:    sdk.F[string](""),
 		Website: sdk.F[string]("https://example.com"),
@@ -207,8 +209,9 @@ Starts onboarding and records the account's acceptance of Straddle's Terms of Se
 ```go
 account, err := client.Accounts.Onboard(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.AccountOnboardParams{
 	TermsOfService: sdk.F[sdk.TermsOfServiceParam](sdk.TermsOfServiceParam{
-		AcceptedDate: sdk.F[time.Time](time.Now()),
-		AgreementURL: sdk.F[string](""),
+		AcceptedDate:  sdk.F[time.Time](time.Now()),
+		AgreementURL:  sdk.F[string](""),
+		AgreementType: sdk.F[sdk.TermsOfServiceAgreementType](sdk.TermsOfServiceAgreementType("embedded")),
 	}),
 })
 if err != nil {
@@ -615,6 +618,7 @@ Creates a paykey from a routing number, account number, and account type.
 ```go
 bridge, err := client.Bridge.NewBankAccountPaykey(context.Background(), sdk.BridgeNewBankAccountPaykeyParams{
 	AccountNumber: sdk.F[string](""),
+	AccountType:   sdk.F[sdk.AccountType](sdk.AccountType("checking")),
 	CustomerID:    sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 	RoutingNumber: sdk.F[string]("xxxxxxxxx"),
 })
@@ -723,9 +727,10 @@ customer, err := client.Customers.Update(context.Background(), "7c9e6679-7425-40
 	Device: sdk.F[sdk.CustomerDeviceParam](sdk.CustomerDeviceParam{
 		IPAddress: sdk.F[string]("192.168.1.1"),
 	}),
-	Email: sdk.F[string]("user@example.com"),
-	Name:  sdk.F[string](""),
-	Phone: sdk.F[string](""),
+	Email:  sdk.F[string]("user@example.com"),
+	Name:   sdk.F[string](""),
+	Phone:  sdk.F[string](""),
+	Status: sdk.F[sdk.CustomerStatus](sdk.CustomerStatus("verified")),
 })
 if err != nil {
 	panic(err)
@@ -791,14 +796,7 @@ customer, err := client.Customers.New(context.Background(), sdk.CustomerNewParam
 	Email: sdk.F[string]("ron.swanson@pawnee.com"),
 	Name:  sdk.F[string]("Ron Swanson"),
 	Phone: sdk.F[string]("+12128675309"),
-	Address: sdk.F[sdk.CustomerUpdateParamsAddress](sdk.CustomerUpdateParamsAddress{
-		Address1: sdk.F[string]("123 Main St"),
-		City:     sdk.F[string]("Anytown"),
-		State:    sdk.F[string]("CA"),
-		Zip:      sdk.F[string]("94105"),
-	}),
-	ExternalID: sdk.F[string]("customer_123"),
-	Metadata:   sdk.F[map[string]string](map[string]string{}),
+	Type:  sdk.F[sdk.CustomerType](sdk.CustomerType("individual")),
 })
 if err != nil {
 	panic(err)
@@ -875,7 +873,9 @@ Updates the verification decision for a customer. The customer's current `status
 | Response | [`CustomerResponse`](./customer.go) |
 
 ```go
-review, err := client.Customers.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerReviewSetVerificationDecisionParams{})
+review, err := client.Customers.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerReviewSetVerificationDecisionParams{
+	Status: sdk.F[sdk.CustomerReviewSetVerificationDecisionParamsStatus](sdk.CustomerReviewSetVerificationDecisionParamsStatus("verified")),
+})
 if err != nil {
 	panic(err)
 }
@@ -1049,7 +1049,9 @@ Updates the verification decision for a paykey. The paykey's current `status` mu
 | Response | [`PaykeyResponse`](./bridge.go) |
 
 ```go
-review, err := client.Paykeys.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyReviewSetVerificationDecisionParams{})
+review, err := client.Paykeys.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyReviewSetVerificationDecisionParams{
+	Status: sdk.F[sdk.PaykeyReviewSetVerificationDecisionParamsStatus](sdk.PaykeyReviewSetVerificationDecisionParamsStatus("active")),
+})
 if err != nil {
 	panic(err)
 }
@@ -1130,9 +1132,12 @@ Creates a charge against a customer's paykey. Straddle submits the charge for pr
 
 ```go
 charge, err := client.Charges.New(context.Background(), sdk.ChargeNewParams{
-	Amount:      sdk.F[int64](10000),
-	Config:      sdk.F[sdk.ChargeConfigurationParam](sdk.ChargeConfigurationParam{}),
-	Currency:    sdk.F[string](""),
+	Amount: sdk.F[int64](10000),
+	Config: sdk.F[sdk.ChargeConfigurationParam](sdk.ChargeConfigurationParam{
+		BalanceCheck: sdk.F[sdk.BalanceCheckMode](sdk.BalanceCheckMode("enabled")),
+	}),
+	ConsentType: sdk.F[sdk.ConsentType](sdk.ConsentType("internet")),
+	Currency:    sdk.F[string]("USD"),
 	Description: sdk.F[string]("Monthly subscription fee"),
 	Device: sdk.F[sdk.PaymentDeviceParam](sdk.PaymentDeviceParam{
 		IPAddress: sdk.F[string]("192.168.1.1"),
@@ -1330,7 +1335,9 @@ Creates a funding event for unfunded charge or payout activity in the sandbox an
 | Response | [`FundingEventSimulation`](./fundingevent.go) |
 
 ```go
-fundingEvent, err := client.FundingEvents.Simulate(context.Background(), sdk.FundingEventSimulateParams{})
+fundingEvent, err := client.FundingEvents.Simulate(context.Background(), sdk.FundingEventSimulateParams{
+	FundingEventJobType: sdk.F[sdk.FundingEventSimulateParamsFundingEventJobType](sdk.FundingEventSimulateParamsFundingEventJobType("charges")),
+})
 if err != nil {
 	panic(err)
 }
@@ -1444,7 +1451,7 @@ Creates a payout to a customer's bank account. Straddle submits the payout for p
 ```go
 payout, err := client.Payouts.New(context.Background(), sdk.PayoutNewParams{
 	Amount:      sdk.F[int64](10000),
-	Currency:    sdk.F[string](""),
+	Currency:    sdk.F[string]("USD"),
 	Description: sdk.F[string]("Vendor invoice payment"),
 	Device: sdk.F[sdk.PaymentDeviceParam](sdk.PaymentDeviceParam{
 		IPAddress: sdk.F[string]("192.168.1.1"),

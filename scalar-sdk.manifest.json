@@ -1,7 +1,7 @@
 {
   "name": "StraddleApi",
   "slug": "straddleApi",
-  "generatorVersion": "0.32.0",
+  "generatorVersion": "0.32.9",
   "servers": [
     "https://{environment}.straddle.com"
   ],
@@ -1428,7 +1428,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "1980-01-01"
             },
@@ -1445,7 +1445,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "1234"
             },
@@ -1464,7 +1464,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "ron.swanson@pawnee.com"
             },
@@ -1481,7 +1481,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "+12128675309"
             },
@@ -1728,15 +1728,7 @@
             "required": false,
             "deprecated": false,
             "type": {
-              "kind": "union",
-              "variants": [
-                {
-                  "kind": "unknown"
-                },
-                {
-                  "kind": "null"
-                }
-              ]
+              "kind": "unknown"
             }
           },
           {
@@ -3502,7 +3494,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Ron"
             },
@@ -3518,7 +3510,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Swanson"
             },
@@ -3534,7 +3526,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "1980-01-01"
             },
@@ -3551,7 +3543,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "1234"
             },
@@ -3567,7 +3559,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "ron.swanson@pawnee.com"
             },
@@ -3592,7 +3584,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "+12128675309"
             },
@@ -4431,7 +4423,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Ron"
             },
@@ -4447,7 +4439,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Swanson"
             },
@@ -4463,7 +4455,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "1980-01-01"
             },
@@ -4480,7 +4472,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "1234"
             },
@@ -4499,7 +4491,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "ron.swanson@pawnee.com"
             },
@@ -4516,7 +4508,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "+12128675309"
             },
@@ -4624,7 +4616,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "123 Main St"
                 },
@@ -4643,7 +4635,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "Apt 1"
                 },
@@ -4670,7 +4662,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "Anytown"
                 },
@@ -4689,7 +4681,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "CA"
                 },
@@ -4708,7 +4700,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "12345"
                 },
@@ -4811,7 +4803,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "123-45-6789"
                 },
@@ -4838,7 +4830,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "1969-04-20"
                 },
@@ -4869,7 +4861,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "12-3456789"
                 },
@@ -4896,7 +4888,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "Acme Corp LLC"
                 },
@@ -4920,7 +4912,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "https://example.com"
                 },
@@ -4987,7 +4979,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "****-**-**"
                 },
@@ -5011,7 +5003,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "***-**-****"
                 },
@@ -5041,7 +5033,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "**-*******"
                 },
@@ -5065,7 +5057,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "Acme Corp LLC"
                 },
@@ -5089,7 +5081,7 @@
                 "deprecated": false,
                 "extensions": {
                   "source": [
-                    "example"
+                    "examples"
                   ],
                   "examples": "https://example.com"
                 },
@@ -5304,28 +5296,6 @@
       "source": "create_customer_request",
       "publicAliases": [],
       "deprecated": false,
-      "extensions": {
-        "source": [
-          "example"
-        ],
-        "examples": {
-          "name": "Ron Swanson",
-          "type": "individual",
-          "email": "ron.swanson@pawnee.com",
-          "address": {
-            "address1": "123 Main St",
-            "city": "Anytown",
-            "state": "CA",
-            "zip": "94105"
-          },
-          "phone": "+12128675309",
-          "external_id": "customer_123",
-          "device": {
-            "ip_address": "192.168.1.1"
-          },
-          "metadata": {}
-        }
-      },
       "type": {
         "kind": "object",
         "properties": [
@@ -5336,7 +5306,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Ron Swanson"
             },
@@ -5362,7 +5332,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "ron.swanson@pawnee.com"
             },
@@ -5389,7 +5359,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "+12128675309"
             },
@@ -5426,7 +5396,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "customer_123"
             },
@@ -6145,7 +6115,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Ron Swanson"
             },
@@ -6171,7 +6141,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "ron.swanson@pawnee.com"
             },
@@ -6188,7 +6158,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "+12128675309"
             },
@@ -6395,7 +6365,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Ron Swanson"
             },
@@ -6421,7 +6391,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "ron.swanson@pawnee.com"
             },
@@ -6438,7 +6408,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "+12128675309"
             },
@@ -6634,7 +6604,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "192.168.1.1"
             },
@@ -6666,7 +6636,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "**.**.**.**"
             },
@@ -7352,7 +7322,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Bank of America"
             },
@@ -7574,7 +7544,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "021000021"
             },
@@ -7594,7 +7564,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "123456789"
             },
@@ -7632,7 +7602,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "021000021"
             },
@@ -7652,7 +7622,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "****1234"
             },
@@ -7810,7 +7780,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Bank of America ****1234"
             },
@@ -7836,7 +7806,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Bank of America"
             },
@@ -8094,7 +8064,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Bank of America"
             },
@@ -8382,7 +8352,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Payment successfully created and awaiting validation."
             },
@@ -8398,9 +8368,9 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
-              "examples": "OK"
+              "examples": "ok"
             },
             "type": {
               "kind": "ref",
@@ -8414,7 +8384,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "system"
             },
@@ -8721,7 +8691,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Monthly subscription fee"
             },
@@ -8775,7 +8745,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": 10000
             },
@@ -9175,7 +9145,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Monthly subscription fee"
             },
@@ -9199,7 +9169,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": 10000
             },
@@ -9324,7 +9294,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Vendor invoice payment"
             },
@@ -9348,7 +9318,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": 10000
             },
@@ -9464,7 +9434,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Ron Swanson"
             },
@@ -9490,7 +9460,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "ron@swanson.com"
             },
@@ -9506,7 +9476,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "+1234567890"
             },
@@ -9534,7 +9504,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "192.168.1.1"
             },
@@ -9563,7 +9533,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "**.**.**.**"
             },
@@ -9626,7 +9596,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": 100000
             },
@@ -9881,7 +9851,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Bank of America ****1234"
             },
@@ -9897,7 +9867,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": 10000
             },
@@ -10078,7 +10048,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Invoice payment for 100 widgets"
             },
@@ -10112,7 +10082,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": 10000
             },
@@ -10552,7 +10522,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": 10000
             },
@@ -10616,39 +10586,23 @@
           {
             "name": "created_at",
             "publicName": "created_at",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "type": {
-              "kind": "union",
-              "variants": [
-                {
-                  "kind": "primitive",
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "kind": "null"
-                }
-              ]
+              "kind": "primitive",
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
             "name": "updated_at",
             "publicName": "updated_at",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "type": {
-              "kind": "union",
-              "variants": [
-                {
-                  "kind": "primitive",
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "kind": "null"
-                }
-              ]
+              "kind": "primitive",
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
@@ -10696,7 +10650,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "created"
             },
@@ -10937,7 +10891,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Payment successfully created and awaiting validation."
             },
@@ -11181,7 +11135,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Monthly subscription fee"
             },
@@ -11205,7 +11159,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": 10000
             },
@@ -11318,7 +11272,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": 10000
             },
@@ -11423,7 +11377,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Bank of America ****1234"
             },
@@ -11439,7 +11393,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "straddle"
             },
@@ -11455,7 +11409,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": "Bank of America"
             },
@@ -13512,39 +13466,23 @@
           {
             "name": "created_at",
             "publicName": "created_at",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "type": {
-              "kind": "union",
-              "variants": [
-                {
-                  "kind": "primitive",
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "kind": "null"
-                }
-              ]
+              "kind": "primitive",
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
             "name": "updated_at",
             "publicName": "updated_at",
-            "required": false,
+            "required": true,
             "deprecated": false,
             "type": {
-              "kind": "union",
-              "variants": [
-                {
-                  "kind": "primitive",
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "kind": "null"
-                }
-              ]
+              "kind": "primitive",
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
@@ -14905,7 +14843,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": [
                 {
@@ -15521,7 +15459,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": [
                 {
@@ -19079,7 +19017,7 @@
             "deprecated": false,
             "extensions": {
               "source": [
-                "example"
+                "examples"
               ],
               "examples": 5000
             },
@@ -25326,16 +25264,16 @@
       },
       "response": {
         "status": "201",
-        "contentType": "text/plain",
-        "encoding": "text",
+        "contentType": "application/json",
+        "encoding": "json",
         "contents": [
-          {
-            "contentType": "text/plain",
-            "encoding": "text"
-          },
           {
             "contentType": "application/json",
             "encoding": "json"
+          },
+          {
+            "contentType": "text/plain",
+            "encoding": "text"
           },
           {
             "contentType": "text/json",
@@ -25360,16 +25298,16 @@
       "errorResponses": [
         {
           "status": "400",
-          "contentType": "text/plain",
-          "encoding": "text",
+          "contentType": "application/json",
+          "encoding": "json",
           "contents": [
-            {
-              "contentType": "text/plain",
-              "encoding": "text"
-            },
             {
               "contentType": "application/json",
               "encoding": "json"
+            },
+            {
+              "contentType": "text/plain",
+              "encoding": "text"
             },
             {
               "contentType": "text/json",
@@ -27517,16 +27455,16 @@
       },
       "response": {
         "status": "201",
-        "contentType": "text/plain",
-        "encoding": "text",
+        "contentType": "application/json",
+        "encoding": "json",
         "contents": [
-          {
-            "contentType": "text/plain",
-            "encoding": "text"
-          },
           {
             "contentType": "application/json",
             "encoding": "json"
+          },
+          {
+            "contentType": "text/plain",
+            "encoding": "text"
           },
           {
             "contentType": "text/json",
@@ -27551,16 +27489,16 @@
       "errorResponses": [
         {
           "status": "400",
-          "contentType": "text/plain",
-          "encoding": "text",
+          "contentType": "application/json",
+          "encoding": "json",
           "contents": [
-            {
-              "contentType": "text/plain",
-              "encoding": "text"
-            },
             {
               "contentType": "application/json",
               "encoding": "json"
+            },
+            {
+              "contentType": "text/plain",
+              "encoding": "text"
             },
             {
               "contentType": "text/json",
@@ -31794,16 +31732,16 @@
       },
       "response": {
         "status": "201",
-        "contentType": "text/plain",
-        "encoding": "text",
+        "contentType": "application/json",
+        "encoding": "json",
         "contents": [
-          {
-            "contentType": "text/plain",
-            "encoding": "text"
-          },
           {
             "contentType": "application/json",
             "encoding": "json"
+          },
+          {
+            "contentType": "text/plain",
+            "encoding": "text"
           },
           {
             "contentType": "text/json",
@@ -31828,16 +31766,16 @@
       "errorResponses": [
         {
           "status": "400",
-          "contentType": "text/plain",
-          "encoding": "text",
+          "contentType": "application/json",
+          "encoding": "json",
           "contents": [
-            {
-              "contentType": "text/plain",
-              "encoding": "text"
-            },
             {
               "contentType": "application/json",
               "encoding": "json"
+            },
+            {
+              "contentType": "text/plain",
+              "encoding": "text"
             },
             {
               "contentType": "text/json",
@@ -36051,16 +35989,16 @@
       },
       "response": {
         "status": "201",
-        "contentType": "text/plain",
-        "encoding": "text",
+        "contentType": "application/json",
+        "encoding": "json",
         "contents": [
-          {
-            "contentType": "text/plain",
-            "encoding": "text"
-          },
           {
             "contentType": "application/json",
             "encoding": "json"
+          },
+          {
+            "contentType": "text/plain",
+            "encoding": "text"
           },
           {
             "contentType": "text/json",
@@ -36085,16 +36023,16 @@
       "errorResponses": [
         {
           "status": "400",
-          "contentType": "text/plain",
-          "encoding": "text",
+          "contentType": "application/json",
+          "encoding": "json",
           "contents": [
-            {
-              "contentType": "text/plain",
-              "encoding": "text"
-            },
             {
               "contentType": "application/json",
               "encoding": "json"
+            },
+            {
+              "contentType": "text/plain",
+              "encoding": "text"
             },
             {
               "contentType": "text/json",

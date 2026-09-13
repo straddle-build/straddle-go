@@ -48,7 +48,9 @@ func NewPaykeyReviewService(opts ...option.RequestOption) (r *PaykeyReviewServic
 //
 // Example:
 //
-//	review, err := client.Paykeys.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyReviewSetVerificationDecisionParams{})
+//	review, err := client.Paykeys.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.PaykeyReviewSetVerificationDecisionParams{
+//		Status: sdk.F[sdk.PaykeyReviewSetVerificationDecisionParamsStatus](sdk.PaykeyReviewSetVerificationDecisionParamsStatus("active")),
+//	})
 //	if err != nil {
 //		panic(err)
 //	}

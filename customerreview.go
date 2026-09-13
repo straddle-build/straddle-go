@@ -89,7 +89,9 @@ func (r *CustomerReviewService) List(ctx context.Context, id string, params Cust
 //
 // Example:
 //
-//	review, err := client.Customers.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerReviewSetVerificationDecisionParams{})
+//	review, err := client.Customers.Review.SetVerificationDecision(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.CustomerReviewSetVerificationDecisionParams{
+//		Status: sdk.F[sdk.CustomerReviewSetVerificationDecisionParamsStatus](sdk.CustomerReviewSetVerificationDecisionParamsStatus("verified")),
+//	})
 //	if err != nil {
 //		panic(err)
 //	}

@@ -99,9 +99,10 @@ func (r *CustomerService) Get(ctx context.Context, id string, params CustomerGet
 //		Device: sdk.F[sdk.CustomerDeviceParam](sdk.CustomerDeviceParam{
 //			IPAddress: sdk.F[string]("192.168.1.1"),
 //		}),
-//		Email: sdk.F[string]("user@example.com"),
-//		Name:  sdk.F[string](""),
-//		Phone: sdk.F[string](""),
+//		Email:  sdk.F[string]("user@example.com"),
+//		Name:   sdk.F[string](""),
+//		Phone:  sdk.F[string](""),
+//		Status: sdk.F[sdk.CustomerStatus](sdk.CustomerStatus("verified")),
 //	})
 //	if err != nil {
 //		panic(err)
@@ -236,14 +237,7 @@ func (r *CustomerService) List(ctx context.Context, query CustomerListParams, op
 //		Email: sdk.F[string]("ron.swanson@pawnee.com"),
 //		Name:  sdk.F[string]("Ron Swanson"),
 //		Phone: sdk.F[string]("+12128675309"),
-//		Address: sdk.F[sdk.CustomerUpdateParamsAddress](sdk.CustomerUpdateParamsAddress{
-//			Address1: sdk.F[string]("123 Main St"),
-//			City:     sdk.F[string]("Anytown"),
-//			State:    sdk.F[string]("CA"),
-//			Zip:      sdk.F[string]("94105"),
-//		}),
-//		ExternalID: sdk.F[string]("customer_123"),
-//		Metadata:   sdk.F[map[string]string](map[string]string{}),
+//		Type:  sdk.F[sdk.CustomerType](sdk.CustomerType("individual")),
 //	})
 //	if err != nil {
 //		panic(err)

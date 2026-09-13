@@ -47,6 +47,7 @@ func NewBridgeService(opts ...option.RequestOption) (r *BridgeService) {
 //
 //	bridge, err := client.Bridge.NewBankAccountPaykey(context.Background(), sdk.BridgeNewBankAccountPaykeyParams{
 //		AccountNumber: sdk.F[string](""),
+//		AccountType:   sdk.F[sdk.AccountType](sdk.AccountType("checking")),
 //		CustomerID:    sdk.F[string]("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
 //		RoutingNumber: sdk.F[string]("xxxxxxxxx"),
 //	})

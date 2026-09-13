@@ -133,6 +133,8 @@ func (r *AccountService) Update(ctx context.Context, accountID string, body Acco
 // Example:
 //
 //	account, err := client.Accounts.New(context.Background(), sdk.AccountNewParams{
+//		AccessLevel: sdk.F[sdk.AccountNewParamsAccessLevel](sdk.AccountNewParamsAccessLevel("standard")),
+//		AccountType: sdk.F[sdk.AccountNewParamsAccountType](sdk.AccountNewParamsAccountType("business")),
 //		BusinessProfile: sdk.F[sdk.AccountBusinessProfileParam](sdk.AccountBusinessProfileParam{
 //			Name:    sdk.F[string](""),
 //			Website: sdk.F[string]("https://example.com"),
@@ -215,8 +217,9 @@ func (r *AccountService) List(ctx context.Context, query AccountListParams, opts
 //
 //	account, err := client.Accounts.Onboard(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.AccountOnboardParams{
 //		TermsOfService: sdk.F[sdk.TermsOfServiceParam](sdk.TermsOfServiceParam{
-//			AcceptedDate: sdk.F[time.Time](time.Now()),
-//			AgreementURL: sdk.F[string](""),
+//			AcceptedDate:  sdk.F[time.Time](time.Now()),
+//			AgreementURL:  sdk.F[string](""),
+//			AgreementType: sdk.F[sdk.TermsOfServiceAgreementType](sdk.TermsOfServiceAgreementType("embedded")),
 //		}),
 //	})
 //	if err != nil {

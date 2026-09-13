@@ -141,9 +141,12 @@ func (r *ChargeService) Update(ctx context.Context, id string, body ChargeUpdate
 // Example:
 //
 //	charge, err := client.Charges.New(context.Background(), sdk.ChargeNewParams{
-//		Amount:      sdk.F[int64](10000),
-//		Config:      sdk.F[sdk.ChargeConfigurationParam](sdk.ChargeConfigurationParam{}),
-//		Currency:    sdk.F[string](""),
+//		Amount: sdk.F[int64](10000),
+//		Config: sdk.F[sdk.ChargeConfigurationParam](sdk.ChargeConfigurationParam{
+//			BalanceCheck: sdk.F[sdk.BalanceCheckMode](sdk.BalanceCheckMode("enabled")),
+//		}),
+//		ConsentType: sdk.F[sdk.ConsentType](sdk.ConsentType("internet")),
+//		Currency:    sdk.F[string]("USD"),
 //		Description: sdk.F[string]("Monthly subscription fee"),
 //		Device: sdk.F[sdk.PaymentDeviceParam](sdk.PaymentDeviceParam{
 //			IPAddress: sdk.F[string]("192.168.1.1"),
@@ -796,6 +799,10 @@ type Payout struct {
 	ExternalID string `json:"external_id" api:"required"`
 	// Configuration for the payout.
 	Config PayoutConfiguration `json:"config" api:"required"`
+	// Timestamp when this payout was created.
+	CreatedAt time.Time `json:"created_at" api:"required" format:"date-time"`
+	// Timestamp when this payout was last updated.
+	UpdatedAt time.Time `json:"updated_at" api:"required" format:"date-time"`
 	// The current status of the payout.
 	Status PaymentStatus `json:"status" api:"required"`
 	// Reason, source, and message for the most recent payout status change.
@@ -818,10 +825,6 @@ type Payout struct {
 	CustomerDetails CustomerDetails `json:"customer_details"`
 	// Information about the paykey used for the payout.
 	PaykeyDetails PaykeyDetails `json:"paykey_details"`
-	// Timestamp when this payout was created.
-	CreatedAt time.Time `json:"created_at" api:"nullable" format:"date-time"`
-	// Timestamp when this payout was last updated.
-	UpdatedAt time.Time `json:"updated_at" api:"nullable" format:"date-time"`
 	// Timestamp when this payout was submitted to the payment network. Null until
 	// processed.
 	ProcessedAt time.Time `json:"processed_at" api:"nullable" format:"date-time"`
@@ -847,6 +850,8 @@ type payoutJSON struct {
 	Device          apijson.Field
 	ExternalID      apijson.Field
 	Config          apijson.Field
+	CreatedAt       apijson.Field
+	UpdatedAt       apijson.Field
 	Status          apijson.Field
 	StatusDetails   apijson.Field
 	StatusHistory   apijson.Field
@@ -858,8 +863,6 @@ type payoutJSON struct {
 	PaymentRail     apijson.Field
 	CustomerDetails apijson.Field
 	PaykeyDetails   apijson.Field
-	CreatedAt       apijson.Field
-	UpdatedAt       apijson.Field
 	ProcessedAt     apijson.Field
 	EffectiveAt     apijson.Field
 	Metadata        apijson.Field
