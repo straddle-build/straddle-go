@@ -30,6 +30,40 @@ go get github.com/straddle-build/straddle-go
 
 <br />
 
+## Migrating from github.com/straddleio/straddle-go
+
+The module moved from `github.com/straddleio/straddle-go`, whose last release is v0.2.0, to `github.com/straddle-build/straddle-go`. v1 is not source compatible with v0.2.0, so expect compile errors after you switch.
+
+1. Add the new module:
+
+   ```sh
+   go get github.com/straddle-build/straddle-go@v1.0.4
+   ```
+
+2. Change every import of `github.com/straddleio/straddle-go` to `github.com/straddle-build/straddle-go`, including subpackage imports such as `github.com/straddleio/straddle-go/option`.
+
+3. Update client setup:
+
+   | v0.2.0 | v1.0.4 |
+   | --- | --- |
+   | `option.WithAPIKey(key)` | `option.WithBearer(key)` |
+   | Reads `STRADDLE_API_KEY` | Reads `BEARER`. Pass `option.WithBearer(os.Getenv("STRADDLE_API_KEY"))` to keep the old variable. |
+   | `option.WithEnvironmentSandbox()` | `option.WithEnvironmentStraddleApiServer()`, which is also the default |
+   | `option.WithEnvironmentProduction()` | `option.WithBaseURL("https://production.straddle.com/")` |
+
+4. Drop the old requirement and rebuild:
+
+   ```sh
+   go mod tidy
+   go build ./...
+   ```
+
+   Fix any remaining compile errors against the [API reference](./api.md). For example, the `shared` package no longer exists.
+
+Pointing the old path at the new module with a `replace` directive does not work. The v1 packages import their own module path, and Go refuses to use one module version under two paths, so rewrite the imports instead.
+
+<br />
+
 ## Usage
 
 ```go
