@@ -40,11 +40,7 @@ The module moved from `github.com/straddleio/straddle-go`, whose last release is
    go get github.com/straddle-build/straddle-go@v1.0.4
    ```
 
-2. Replace the old import path everywhere it appears, including subpackages such as `/option`. For example:
-
-   ```sh
-   grep -rl --include='*.go' 'github.com/straddleio/straddle-go' . | xargs perl -pi -e 's#github.com/straddleio/straddle-go#github.com/straddle-build/straddle-go#g'
-   ```
+2. Change every import of `github.com/straddleio/straddle-go` to `github.com/straddle-build/straddle-go`, including subpackage imports such as `github.com/straddleio/straddle-go/option`.
 
 3. Update client setup:
 
