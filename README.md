@@ -1,70 +1,26 @@
-# Straddle API
+# Straddle Go SDK
 
-This library provides convenient access to the Straddle API from Go.
+Use Straddle's Pay by Bank and Embed APIs from Go. The SDK provides typed requests and responses, authentication, retries, and configurable HTTP transport.
 
-The full API of this library can be found in [api.md](./api.md).
+## Install
 
-<br />
-
-## Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Reference](./api.md)
-- [Authentication](#authentication)
-- [Errors](#errors)
-- [Client Options](#client-options)
-- [Request Options](#request-options)
-- [Retries and Timeouts](#retries-and-timeouts)
-- [Helpers](#helpers)
-- [Logging](#logging)
-- [Requirements](#requirements)
-
-<br />
-
-## Installation
+Use Go 1.22 or later. Add the module to your project:
 
 ```sh
 go get github.com/straddle-build/straddle-go
 ```
 
-<br />
+The module path is `github.com/straddle-build/straddle-go`; its package name is `straddle`. The examples use the alias `sdk`. If you use the earlier `straddleio` module, follow the [migration guide](#migrate-from-the-straddleio-module).
 
-## Migrating from github.com/straddleio/straddle-go
+## Make your first request
 
-The module moved from `github.com/straddleio/straddle-go`, whose last release is v0.2.0, to `github.com/straddle-build/straddle-go`. v1 is not source compatible with v0.2.0, so expect compile errors after you switch.
+Create a sandbox API key in the [Straddle Dashboard](https://dashboard.straddle.com), then set it in your environment. See [API authentication](https://docs.straddle.com/api-reference/authentication) for the setup steps.
 
-1. Add the new module:
+```sh
+export STRADDLE_API_KEY="YOUR_SANDBOX_API_KEY"
+```
 
-   ```sh
-   go get github.com/straddle-build/straddle-go@v1.0.4
-   ```
-
-2. Change every import of `github.com/straddleio/straddle-go` to `github.com/straddle-build/straddle-go`, including subpackage imports such as `github.com/straddleio/straddle-go/option`.
-
-3. Update client setup:
-
-   | v0.2.0 | v1.0.4 |
-   | --- | --- |
-   | `option.WithAPIKey(key)` | `option.WithBearer(key)` |
-   | Reads `STRADDLE_API_KEY` | Reads `BEARER`. Pass `option.WithBearer(os.Getenv("STRADDLE_API_KEY"))` to keep the old variable. |
-   | `option.WithEnvironmentSandbox()` | `option.WithEnvironmentStraddleApiServer()`, which is also the default |
-   | `option.WithEnvironmentProduction()` | `option.WithBaseURL("https://production.straddle.com/")` |
-
-4. Drop the old requirement and rebuild:
-
-   ```sh
-   go mod tidy
-   go build ./...
-   ```
-
-   Fix any remaining compile errors against the [API reference](./api.md). For example, the `shared` package no longer exists.
-
-Pointing the old path at the new module with a `replace` directive does not work. The v1 packages import their own module path, and Go refuses to use one module version under two paths, so rewrite the imports instead.
-
-<br />
-
-## Usage
+Save the following example as `main.go` in your Go project. It requests the first page of customers from the sandbox:
 
 ```go
 package main
@@ -72,125 +28,175 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
+	"time"
 
 	sdk "github.com/straddle-build/straddle-go"
 	"github.com/straddle-build/straddle-go/option"
 )
 
 func main() {
-	client := sdk.NewClient(
-		option.WithBearer(os.Getenv("BEARER")),
-	)
-
-	account, err := client.Accounts.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.AccountGetParams{})
-	if err != nil {
-		panic(err)
+	apiKey := os.Getenv("STRADDLE_API_KEY")
+	if apiKey == "" {
+		log.Fatal("Set STRADDLE_API_KEY to your sandbox API key.")
 	}
 
-	fmt.Println(account)
+	client := sdk.NewClient(
+		option.WithBearer(apiKey),
+		option.WithBaseURL("https://sandbox.straddle.com"),
+	)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	page, err := client.Customers.List(ctx, sdk.CustomerListParams{
+		PageNumber: sdk.Int(1),
+		PageSize:   sdk.Int(10),
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Customers on this page: %d\n", len(page.Data))
 }
 ```
 
-The examples in the following sections assume a `client` configured as shown above.
+For a SaaS platform key, add `StraddleAccountID: sdk.String("YOUR_EMBEDDED_ACCOUNT_ID")` to `CustomerListParams` before running the example. This selects the embedded account whose customers you want to read. Direct accounts and marketplaces list customers without that header. See [platform account scoping](https://docs.straddle.com/guides/embed/api-headers).
 
-See the [API reference](./api.md) for every available operation.
+Run the example:
 
-<br />
+```sh
+go run .
+```
 
-## Authentication
+A successful request prints the number of customers on the page. `Customers on this page: 0` is valid for an empty account. Customer records are in `page.Data`; pagination and request metadata are in `page.Meta`.
 
-Pass credentials to the generated client constructor. Environment variables are read automatically when supported by the target runtime.
+The remaining snippets use the `client` and `ctx` from this example.
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `option.WithBearer` | `string \| provider` | - | Send the API key as a bearer token in the `Authorization` header. Defaults to BEARER. |
+## Configure authentication and environments
 
-Declared schemes:
+The example passes `STRADDLE_API_KEY` explicitly with `option.WithBearer`. If you omit this option, the client reads `BEARER`.
 
-- `Bearer` bearer token
+Set `option.WithBaseURL` explicitly to select an environment. If you omit it, the client reads `STRADDLE_BASE_URL`, then defaults to `https://sandbox.straddle.com`. Production uses `https://production.straddle.com` and a production API key. See [environments](https://docs.straddle.com/api-reference/environments).
 
-<br />
+## Read additional pages
 
-## Errors
-
-Non-success responses return generated API errors. Error objects expose status, headers, response body, and request metadata where the target runtime supports it.
+List methods return one response page. Choose the next `PageNumber` using `page.Meta.TotalPages`, and keep your filters and account scope the same between requests:
 
 ```go
-account, err := client.Accounts.Get(context.Background(), "7c9e6679-7425-40de-944b-e07fc1f90ae7", sdk.AccountGetParams{})
+nextPage, err := client.Customers.List(ctx, sdk.CustomerListParams{
+	PageNumber: sdk.Int(2),
+	PageSize:   sdk.Int(10),
+})
+if err != nil {
+	log.Fatal(err)
+}
+fmt.Println(len(nextPage.Data))
+```
+
+Use `sdk.Int`, `sdk.String`, `sdk.Bool`, `sdk.Float`, or the generic `sdk.F(value)` to set optional fields. These helpers distinguish a supplied zero value from an omitted field. See the [method reference](./api.md) for filters and response types.
+
+## Handle errors
+
+Methods return an error as their second result. Use `errors.As` to inspect an API error's status and response body:
+
+```go
+// Add "errors" to your imports.
+page, err := client.Customers.List(ctx, sdk.CustomerListParams{PageSize: sdk.Int(10)})
 if err != nil {
 	var apiErr *sdk.Error
 	if errors.As(err, &apiErr) {
-		fmt.Println(apiErr.StatusCode, apiErr.RawJSON())
+		fmt.Println(apiErr.StatusCode, apiErr.JSON.RawJSON())
 	}
-	panic(err)
+	log.Fatal(err)
 }
-
-// imports: "context", "errors", "fmt", sdk "github.com/straddle-build/straddle-go"
+fmt.Println(len(page.Data))
 ```
 
-Documented error statuses: `400`, `401`, `403`, `404`, `422`, `500`.
+For a `401`, check that the key matches the selected environment. For a `403`, check the key's permissions and account scope. Transport errors and context cancellation also return through `err`. See [API errors](https://docs.straddle.com/api-reference/errors) for response details.
 
-<br />
+## Set retries and timeouts
 
-## Client Options
+The client retries connection errors, `408`, `409`, `429`, and `5xx` responses twice by default. It uses exponential backoff and honors supported `Retry-After` values.
 
-Configure the generated client by setting any of these options when you create it.
+Use a context deadline to bound the complete operation, including retries. `option.WithRequestTimeout` sets a separate timeout for each attempt. Request options can be set on the client or passed after a method's parameters:
 
 ```go
-client := sdk.NewClient(
-	option.WithBaseURL("https://api.example.com"),
-	option.WithMaxRetries(2),
-	option.WithRequestTimeout(60*time.Second),
+page, err := client.Customers.List(
+	ctx,
+	sdk.CustomerListParams{PageSize: sdk.Int(10)},
+	option.WithMaxRetries(0),
+	option.WithRequestTimeout(10*time.Second),
 )
-
-// imports: sdk "github.com/straddle-build/straddle-go", "github.com/straddle-build/straddle-go/option", "time"
+if err != nil {
+	log.Fatal(err)
+}
+fmt.Println(len(page.Data))
 ```
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `option.WithBearer` | `func(string) option.RequestOption` | `os.Getenv("BEARER")` | Send the API key as a bearer token in the `Authorization` header. |
-| `option.WithEnvironmentStraddleApiServer` | `func() option.RequestOption` | - | Select the straddle_api_server API environment. |
-| `option.WithBaseURL` | `func(string) option.RequestOption` | `os.Getenv("STRADDLE_BASE_URL")` | Override the default API base URL. |
-| `option.WithRequestTimeout` | `func(time.Duration) option.RequestOption` | - | Maximum time to wait for each request attempt. |
-| `option.WithMaxRetries` | `func(int) option.RequestOption` | `2` | Number of retries for temporary failures. |
-| `option.WithHTTPClient` | `func(option.HTTPClient) option.RequestOption` | - | Custom HTTP client or transport implementation. |
+For write operations that accept an idempotency key, set the operation's `IdempotencyKey` field. Reuse that value when retrying the same operation. See [idempotency](https://docs.straddle.com/api-reference/idempotency).
 
-<br />
+## Configure transport and request options
 
-## Request Options
+The following options support client setup and individual requests.
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `option.WithHeader` | `func(string, string) option.RequestOption` | - | Set a per-request header. |
-| `option.WithQuery` | `func(string, string) option.RequestOption` | - | Set a per-request query parameter. |
-| `option.WithRequestBody` | `func(string, any) option.RequestOption` | - | Override the serialized request body and content type. |
-| `option.WithResponseInto` | `func(**http.Response) option.RequestOption` | - | Capture the raw HTTP response. |
-| `option.WithResponseBodyInto` | `func(any) option.RequestOption` | - | Override the response deserialization target. |
+| Option | Purpose |
+| --- | --- |
+| `option.WithBearer` | Set the API key |
+| `option.WithBaseURL` | Set the API base URL |
+| `option.WithEnvironmentStraddleApiServer` | Select the default sandbox environment |
+| `option.WithMaxRetries` | Set the retry count; default `2` |
+| `option.WithRequestTimeout` | Set the timeout for each attempt |
+| `option.WithHTTPClient` | Supply an HTTP client or transport |
+| `option.WithMiddleware` | Add request logging or tracing |
+| `option.WithHeader` | Set a header |
+| `option.WithQuery` | Set a query parameter |
+| `option.WithRequestBody` | Supply a content type and body as bytes or an `io.Reader` |
+| `option.WithResponseInto` | Capture the underlying `*http.Response` |
+| `option.WithResponseBodyInto` | Override the response deserialization target |
 
-<br />
+Pass `option.WithResponseInto(&raw)` with `var raw *http.Response` to inspect the HTTP status and headers alongside the parsed result.
 
-## Retries and Timeouts
+## Migrate from the straddleio module
 
-Generated clients support request timeouts and retry temporary failures such as network errors, 408, 409, 429, and 5xx responses. Retry delays honor `Retry-After` headers when present. Tune the retry and timeout client options shown above, or override them per request.
+The module moved from `github.com/straddleio/straddle-go`, whose last release is v0.2.0, to `github.com/straddle-build/straddle-go`. Version 1 changes the source API, so update imports and client setup together.
 
-<br />
+1. Add the new module:
 
-## Helpers
+   ```sh
+   go get github.com/straddle-build/straddle-go@v1.0.4
+   ```
 
-- Pass `option.WithResponseInto(&raw)` to capture the underlying `*http.Response` for a request.
-- Use the generated `String`, `Int`, `Bool`, `Float`, `Time`, `Opt`, and `Ptr` helpers when setting optional params.
+2. Change every import of `github.com/straddleio/straddle-go` to `github.com/straddle-build/straddle-go`, including subpackages such as `option`.
 
-<br />
+3. Update client setup using the following mapping.
 
-## Logging
+   | v0.2.0 | v1.0.4 |
+   | --- | --- |
+   | `option.WithAPIKey(key)` | `option.WithBearer(key)` |
+   | Reads `STRADDLE_API_KEY` | Reads `BEARER`; pass `option.WithBearer(os.Getenv("STRADDLE_API_KEY"))` to keep the earlier variable |
+   | `option.WithEnvironmentSandbox()` | `option.WithEnvironmentStraddleApiServer()`, also the default |
+   | `option.WithEnvironmentProduction()` | `option.WithBaseURL("https://production.straddle.com/")` |
 
-- Wrap the HTTP client with `option.WithMiddleware(...)` to add request logging or tracing.
+4. Remove the old requirement and rebuild:
 
-<br />
+   ```sh
+   go mod tidy
+   go build ./...
+   ```
 
-## Requirements
+   Resolve remaining compile errors against the [method reference](./api.md). For example, the `shared` package no longer exists.
 
-- Go 1.22 or newer
+Rewrite imports instead of using a `replace` directive from the old module path to the new one. Version 1 imports its own module path internally, and Go rejects using one module version under two paths.
 
-Powered by Scalar.
+## Reference and support
+
+Use the following resources as you build your integration:
+
+- [SDK method reference](./api.md): operations, parameters, and response types.
+- [Go package documentation](https://pkg.go.dev/github.com/straddle-build/straddle-go): exported types and methods.
+- [Straddle guides](https://docs.straddle.com): payment flows, sandbox testing, and API concepts.
+- [GitHub issues](https://github.com/straddle-build/straddle-go/issues): SDK bugs and feature requests.
+- [Versioning and contributions](./VERSIONING.md): submit customizations against `scalar-next` so Scalar carries them through regeneration.
+- [Security policy](./SECURITY.md) and [Apache 2.0 license](./LICENSE).
+
+Straddle generates this SDK with Scalar and maintains repository customizations through the workflow in `VERSIONING.md`.
