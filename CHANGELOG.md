@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.5](https://github.com/straddle-build/straddle-go/compare/v1.0.4...v1.0.5) (2026-10-07)
+
+
+### Documentation
+
+* document migration from github.com/straddleio/straddle-go ([4f36bb4](https://github.com/straddle-build/straddle-go/commit/4f36bb4b3feecccb093eb085374a8114fdde5695))
+* document migration from github.com/straddleio/straddle-go (ME-807) ([#2](https://github.com/straddle-build/straddle-go/issues/2)) ([4dd5aa3](https://github.com/straddle-build/straddle-go/commit/4dd5aa396ebc22a1845e5c32551557ec273c4f70))
+* refresh Go SDK quickstart and examples ([#5](https://github.com/straddle-build/straddle-go/issues/5)) ([912be51](https://github.com/straddle-build/straddle-go/commit/912be518355f09f1e7107f14a9b6498843bfbd25))
+
 ## [1.0.4](https://github.com/straddle-build/straddle-go/compare/v0.1.0...v1.0.4) (2026-09-13)
 
 
